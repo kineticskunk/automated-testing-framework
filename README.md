@@ -1,2 +1,2 @@
-# automated-testing-framework
-WebDriver based functional test automation framework
+# JAVALIUM
+Selenium, Appium, AutoIT, RestAssured wrapper for end-to-end automated testing
