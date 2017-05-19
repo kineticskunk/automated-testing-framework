@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0_115.
- */
 package com.kineticskunk.drivers;
 
 import com.kineticskunk.library.ApplicationProperties;
@@ -15,8 +12,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class ConfigureChromeDriver {
-    private static final String CHROMEDRIVERLOCATION = "chromedriverlocation";
-    private static final String CHROMEDRIVERNAME = "chromedrivername";
     private DesiredCapabilities dc = DesiredCapabilities.chrome();
     private ChromeDriver cd = null;
     private ChromeDriverService cs = null;

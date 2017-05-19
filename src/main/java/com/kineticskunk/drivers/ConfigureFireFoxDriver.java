@@ -39,7 +39,7 @@ public class ConfigureFireFoxDriver {
 
     private void setProfile() throws IOException {
         this.profile.setAcceptUntrustedCertificates(true);
-        this.profile.setEnableNativeEvents(Boolean.valueOf(this.ap.getPropValue("enablenativeevents")));
+        //this.profile.setEnableNativeEvents(Boolean.valueOf(this.ap.getPropValue("enablenativeevents")));
         this.profile.setPreference("browser.cache.disk.enable", Boolean.valueOf(this.ap.getPropValue("browsercacheddiskenabled")));
         this.profile.setPreference("browser.download.dir", this.ap.getPropValue("downloadlocation"));
         this.profile.setPreference("browser.download.folderList", 2);
