@@ -15,12 +15,30 @@
 	</properties>
 
 	<distributionManagement>
+		<snapshotRepository>
+			<id>yodaqua</id>
+			<url>https:/github.com/kineticskunk/javalium/mvn-repo/snapshots</url>
+		</snapshotRepository>
 		<repository>
 			<id>internal.repo</id>
 			<name>Temporary Staging Repository</name>
 			<url>file://${project.build.directory}/mvn-repo</url>
 		</repository>
 	</distributionManagement>
+
+	<scm>
+		<url>https://github.com/kineticskunk/javalium.git</url>
+		<connection>scm:git:git@github.com:kineticskunk/javalium.git</connection>
+		<developerConnection>scm:git:git@github.com:kineticskunk/javalium.git</developerConnection>
+	</scm>
+
+	<developers>
+		<developer>
+			<id>yodaqua</id>
+			<name>Donovan Mulder</name>
+			<email>donovan.mulder@kineticskunk.com</email>
+		</developer>
+	</developers>
 
 	<build>
 		<resources>
@@ -41,7 +59,7 @@
 			<plugin>
 				<groupId>com.github.github</groupId>
 				<artifactId>site-maven-plugin</artifactId>
-				<version>0.9</version>
+				<version>0.12</version>
 				<configuration>
 					<!-- git commit message -->
 					<message>Maven artifacts for ${project.version}</message>
@@ -61,7 +79,7 @@
 					<!-- github repo name -->
 					<repositoryName>javalium</repositoryName>
 					<!-- github username -->
-					<repositoryOwner>yodaqua</repositoryOwner>
+					<repositoryOwner>kineticskunk</repositoryOwner>
 				</configuration>
 				<executions>
 					<execution>
