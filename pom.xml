@@ -5,15 +5,15 @@
 	<artifactId>functional</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>functional</name>
-	<url>http://maven.apache.org</url>
+	<name>Javalium</name>
+	<url>https://github.com/kineticskunk/javalium</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<github.global.server>github</github.global.server>
 		<rest.assured.version>2.9.0</rest.assured.version>
 	</properties>
-
+	
 	<distributionManagement>
 		<snapshotRepository>
 			<id>yodaqua</id>
