@@ -41,8 +41,8 @@ public class WebDriverSynchronization extends JavaScriptExecution {
         super(driver);
         this.driver = driver;
         this.ap = ApplicationProperties.getInstance();
-        this.loopFor = Integer.valueOf(this.ap.getPropValue("loopfor"));
-        this.waitFor = Integer.valueOf(this.ap.getPropValue("waitfor"));
+        this.loopFor = Integer.valueOf(10);
+        this.waitFor = Integer.valueOf(15);
         this.wait = new WebDriverWait(this.driver, this.loopFor, this.waitFor);
         this.setWaitFor(this.waitFor);
     }
