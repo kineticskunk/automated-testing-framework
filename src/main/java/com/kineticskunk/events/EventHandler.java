@@ -16,10 +16,12 @@ public class EventHandler implements WebDriverEventListener {
     
     private AlertsHandler alertHandler;
     private String alertText;
+    private String currentURL;
+    private String navigateToURL;
 
 	@Override
 	public void beforeAlertAccept(WebDriver driver) {
-		this.logger.entry("In beforeAlertAccept");
+		this.logger.info(EVENTHANDLER, "In beforeAlertAccept");
 		this.alertHandler = new AlertsHandler(driver);
 		if (this.alertHandler.isAlertPresent()) {
 			this.alertText = this.alertHandler.getAlertText();
@@ -29,7 +31,7 @@ public class EventHandler implements WebDriverEventListener {
 
 	@Override
 	public void afterAlertAccept(WebDriver driver) {
-		this.logger.entry("In afterAlertAccept");
+		this.logger.info(EVENTHANDLER, "In afterAlertAccept");
 		this.alertHandler = new AlertsHandler(driver);
 		if (!this.alertHandler.isAlertPresent()) {
 			this.logger.debug(EVENTHANDLER, String.format("Alert with text (%s) does not exist.", this.alertText));
@@ -40,7 +42,7 @@ public class EventHandler implements WebDriverEventListener {
 
 	@Override
 	public void afterAlertDismiss(WebDriver driver) {
-		this.logger.entry("In afterAlertDismiss");
+		this.logger.info(EVENTHANDLER, "In afterAlertDismiss");
 		this.alertHandler = new AlertsHandler(driver);
 		if (!this.alertHandler.isAlertPresent()) {
 			this.logger.debug(EVENTHANDLER, String.format("Alert with text (%s) does not exist.", this.alertText));
@@ -51,31 +53,36 @@ public class EventHandler implements WebDriverEventListener {
 
 	@Override
 	public void beforeAlertDismiss(WebDriver driver) {
-		this.logger.entry("In beforeAlertDismiss");
+		this.logger.info(EVENTHANDLER, "In beforeAlertDismiss");
 		this.alertHandler = new AlertsHandler(driver);
 		if (this.alertHandler.isAlertPresent()) {
 			this.alertText = this.alertHandler.getAlertText();
 			this.logger.debug(EVENTHANDLER, String.format("Alert with text (%s) exists.", this.alertText));
 		}
-		
 	}
 
 	@Override
 	public void beforeNavigateTo(String url, WebDriver driver) {
-		// TODO Auto-generated method stub
-		
+		this.currentURL = driver.getCurrentUrl();
+		this.navigateToURL = url;
+		this.logger.info(EVENTHANDLER, "In beforeNavigateTo");
+		this.logger.debug(EVENTHANDLER, String.format("Current url = (%s)", this.currentURL));
+		this.logger.debug(EVENTHANDLER, String.format("Navigating to url = (%s)", url));
 	}
 
 	@Override
 	public void afterNavigateTo(String url, WebDriver driver) {
-		// TODO Auto-generated method stub
-		
+		this.logger.info(EVENTHANDLER, "In afterNavigateTo");
+		if (this.currentURL.equalsIgnoreCase(this.navigateToURL)) {
+			this.logger.warn(EVENTHANDLER, String.format("Failed to navigate to url = (%s)", this.navigateToURL));
+		} else {
+			this.logger.debug(EVENTHANDLER, String.format("Navigated to url = (%s)", driver.getCurrentUrl()));
+		}
 	}
 
 	@Override
 	public void beforeNavigateBack(WebDriver driver) {
-		// TODO Auto-generated method stub
-		
+		this.logger.info(EVENTHANDLER, String.format("Just before beforeNavigateBack (%s)", driver.getCurrentUrl()));
 	}
 
 	@Override
