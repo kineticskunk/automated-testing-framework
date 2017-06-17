@@ -4,8 +4,11 @@ import com.kineticskunk.synchronization.WebDriverSynchronization;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -13,7 +16,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class WebElementSynchronization extends WebDriverSynchronization {
 	
-	private static final Logger logger = LogManager.getLogger(WebElementSynchronization.class.getName());
+	private final Logger logger = LogManager.getLogger(WebElementSynchronization.class.getName());
+	private final Marker WEBELEMENTSYCHRONIZATION = MarkerManager.getMarker(WebElementSynchronization.class.getName());
 
     public WebElementSynchronization(WebDriver driver) {
         super(driver);

@@ -12,6 +12,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class ConfigureChromeDriver {
+	
     private DesiredCapabilities dc = DesiredCapabilities.chrome();
     private ChromeDriver cd = null;
     private ChromeDriverService cs = null;
@@ -40,7 +41,9 @@ public class ConfigureChromeDriver {
     }
 
     private void setChromeService() {
-        this.cs = (ChromeDriverService)((ChromeDriverService.Builder)((ChromeDriverService.Builder)new ChromeDriverService.Builder().usingDriverExecutable(new File(this.ap.getPropValue("chromedriverlocation") + this.ap.getPropValue("chromedrivername")))).usingAnyFreePort()).build();
+    	//((ChromeDriverService.Builder)
+    	System.setProperty("webdriver.chrome.driver", this.ap.getPropValue("chromedriverlocation") + this.ap.getPropValue("chromedrivername"));
+        //this.cs = (ChromeDriverService)((ChromeDriverService.Builder) new ChromeDriverService.Builder().usingDriverExecutable(new File(this.ap.getPropValue("chromedriverlocation") + this.ap.getPropValue("chromedrivername")))).usingAnyFreePort().build();
     }
 
     public ChromeDriverService getChromeDriverService() {
@@ -59,7 +62,7 @@ public class ConfigureChromeDriver {
     }
 
     private void setDriver() throws Exception {
-        this.cd = new ChromeDriver(this.cs, this.dc);
+        this.cd = new ChromeDriver(this.dc);
     }
 }
 

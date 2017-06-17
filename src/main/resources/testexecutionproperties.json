@@ -1,0 +1,7 @@
+{
+	"webdrivers": {
+		"chromedriverlocation": "/usr/local/share/chromedriver",
+		"geckodriverlocation": "/usr/local/share/geckodriver",
+		"operadriverlocation": "/usr/local/share/operadriver"
+	}
+}

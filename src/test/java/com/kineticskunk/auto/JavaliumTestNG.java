@@ -23,8 +23,13 @@ import com.kineticskunk.auto.desiredcapabilities.LoadDesiredCapabilities;
 import com.kineticskunk.driverfactory.DriverExecutable;
 import com.kineticskunk.driverfactory.DriverFactory;
 
-public class JavaliumTestNG {
+public class JavaliumTestNG extends TestBaseSetup {
 	
+	public JavaliumTestNG(String configFileLocation, String configFileName) throws IOException {
+		super(configFileLocation, configFileName);
+		// TODO Auto-generated constructor stub
+	}
+
 	private final Logger logger = LogManager.getLogger(JavaliumTestNG.class.getName());
 	private final Marker LOADDESIREDCAPABILITIES = MarkerManager.getMarker("LOADDESIREDCAPABILITIES");
 	

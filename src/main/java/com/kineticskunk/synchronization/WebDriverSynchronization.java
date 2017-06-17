@@ -3,7 +3,10 @@ package com.kineticskunk.synchronization;
 import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -13,7 +16,9 @@ import com.kineticskunk.library.ApplicationProperties;
 
 public class WebDriverSynchronization extends JavaScriptExecution {
 
-	private static final Logger logger = LogManager.getLogger(WebDriverSynchronization.class.getName());
+	private final Logger logger = LogManager.getLogger(WebDriverSynchronization.class.getName());
+	private final Marker WEBDRIVERSYCHRONIZATION = MarkerManager.getMarker(WebDriverSynchronization.class.getName());
+	
     private int loopFor;
     private int waitFor;
     private static WebDriverSynchronization wds;
@@ -112,5 +117,14 @@ public class WebDriverSynchronization extends JavaScriptExecution {
         return (WebDriver)this.driverWait().until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.tagName(tagName)));
     }
 	
-	
+    public boolean waitForAlert() {
+        try {
+            this.driverWait().until(ExpectedConditions.alertIsPresent());
+            return true;
+        }
+        catch (TimeoutException e) {
+        	this.logger.debug(WEBDRIVERSYCHRONIZATION, "No alerts are present");
+            return false;
+        }
+    }
 }

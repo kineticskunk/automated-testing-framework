@@ -1,26 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="DEBUG">
+<Configuration status="INFO, DEBUG">
 	<Properties>
-		<Property name="log-path">${sys:logPath}/logs</Property>
+		<Property name="log-path">logs</Property>
 	</Properties>
 	<Appenders>
-		<RollingFile name="RollingFile" fileName="${log-path}/kineticskunk.log"
-			filePattern="${log-path}/myexample-%d{yyyy-MM-dd}-%i.log">
-			<PatternLayout>
-				<pattern>%d{dd/MMM/yyyy HH:mm:ss,SSS}- %c{1}: %m%n</pattern>
-			</PatternLayout>
-			<Policies>
-				<SizeBasedTriggeringPolicy size="1 KB" />
-			</Policies>
-			<DefaultRolloverStrategy max="4" />
-		</RollingFile>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		</Console>
+		<File name="kineticskunk" fileName="${log-path}/kineticskunk.log"
+			immediateFlush="false" append="false">
+			<PatternLayout
+				pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		</File>
 	</Appenders>
 	<Loggers>
-		<Logger name="root" level="debug" additivity="false">
-			<appender-ref ref="RollingFile" level="debug" />
-		</Logger>
-		<Root level="debug" additivity="false">
-			<AppenderRef ref="RollingFile" />
+		<Root level="debug">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="kineticskunk" />
 		</Root>
+		<Root level="info">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="kineticskunk" />
+		</Root>
+		<Root level="error">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="kineticskunk" />
+		</Root>
+		<Root level="fatal">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="kineticskunk" />
+		</Root>
+		<Root level="warn">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="kineticskunk"/>
+        </Root>
+        <Root level="trace">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="kineticskunk"/>
+        </Root>
 	</Loggers>
 </Configuration>

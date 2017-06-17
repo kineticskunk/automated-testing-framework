@@ -13,10 +13,12 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class ConfigureFireFoxDriver {
+	
     private static final String ENABLENATIVEEVENTS = "enablenativeevents";
     private static final String BROWSERCACHEDDISKENABLE = "browsercacheddiskenabled";
     private static final String BROWSERDOWNLOADDIRECTORY = "downloadlocation";
     private static final String BROWSERHELPERAPPSNEVERASKSAVETODISK = "helperappfilestypes";
+    
     private WebDriver driver = null;
     private FirefoxProfile profile = new FirefoxProfile();
     private DesiredCapabilities dc = new DesiredCapabilities();

@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0_115.
- */
 package com.kineticskunk.events;
 
 import com.kineticskunk.synchronization.WebElementSynchronization;
@@ -9,8 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-public class ComboBoxes
-extends WebElementSynchronization {
+public class ComboBoxes extends WebElementSynchronization {
     private Select ComboBox;
 
     public ComboBoxes(WebDriver driver, WebElement element) {
