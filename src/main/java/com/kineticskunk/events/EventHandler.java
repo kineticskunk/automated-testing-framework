@@ -13,31 +13,50 @@ public class EventHandler implements WebDriverEventListener {
 	
 	private final Logger logger = LogManager.getLogger(EventHandler.class.getName());
     private final Marker EVENTHANDLER = MarkerManager.getMarker("EVENTHANDLER");
-    private HandlingAlerts ha;
+    
+    private AlertsHandler alertHandler;
+    private String alertText;
 
 	@Override
 	public void beforeAlertAccept(WebDriver driver) {
-		ha = new HandlingAlerts(driver);
-		if (waitForAlert)
 		this.logger.entry("In beforeAlertAccept");
-		this.logger.debug(EVENTHANDLER, String.format("Alert text = (%s)", driver.switchTo().alert().getText()));		
+		this.alertHandler = new AlertsHandler(driver);
+		if (this.alertHandler.isAlertPresent()) {
+			this.alertText = this.alertHandler.getAlertText();
+			this.logger.debug(EVENTHANDLER, String.format("Alert with text (%s) exists.", this.alertText));
+		}
 	}
 
 	@Override
 	public void afterAlertAccept(WebDriver driver) {
-		// TODO Auto-generated method stub
-		
+		this.logger.entry("In afterAlertAccept");
+		this.alertHandler = new AlertsHandler(driver);
+		if (!this.alertHandler.isAlertPresent()) {
+			this.logger.debug(EVENTHANDLER, String.format("Alert with text (%s) does not exist.", this.alertText));
+		} else {
+			this.logger.warn(EVENTHANDLER, String.format("Alert with text (%s) exists.", this.alertText));
+		}
 	}
 
 	@Override
 	public void afterAlertDismiss(WebDriver driver) {
-		// TODO Auto-generated method stub
-		
+		this.logger.entry("In afterAlertDismiss");
+		this.alertHandler = new AlertsHandler(driver);
+		if (!this.alertHandler.isAlertPresent()) {
+			this.logger.debug(EVENTHANDLER, String.format("Alert with text (%s) does not exist.", this.alertText));
+		} else {
+			this.logger.warn(EVENTHANDLER, String.format("Alert with text (%s) exists.", this.alertText));
+		}
 	}
 
 	@Override
 	public void beforeAlertDismiss(WebDriver driver) {
-		// TODO Auto-generated method stub
+		this.logger.entry("In beforeAlertDismiss");
+		this.alertHandler = new AlertsHandler(driver);
+		if (this.alertHandler.isAlertPresent()) {
+			this.alertText = this.alertHandler.getAlertText();
+			this.logger.debug(EVENTHANDLER, String.format("Alert with text (%s) exists.", this.alertText));
+		}
 		
 	}
 

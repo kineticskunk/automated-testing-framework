@@ -12,17 +12,21 @@ import org.openqa.selenium.security.UserAndPassword;
 
 import com.kineticskunk.synchronization.WebDriverSynchronization;
 
-public class HandlingAlerts {
+public class AlertsHandler {
 	
-	private final Logger logger = LogManager.getLogger(HandlingAlerts.class.getName());
-	private final Marker HANDLINGALERTS = MarkerManager.getMarker(HandlingAlerts.class.getName());
+	private final Logger logger = LogManager.getLogger(AlertsHandler.class.getName());
+	private final Marker HANDLINGALERTS = MarkerManager.getMarker(AlertsHandler.class.getName());
 	
 	private Alert alert;
 	private WebDriverSynchronization wds;
 	
-	public HandlingAlerts(WebDriver driver) {
-		this.alert = driver.switchTo().alert();
+	public AlertsHandler(WebDriver driver) {
 		this.wds = WebDriverSynchronization.getInstance(driver);
+		this.alert = driver.switchTo().alert();
+	}
+	
+	public Alert getAlert() {
+		return this.alert;
 	}
 	
 	public boolean isAlertPresent() {
