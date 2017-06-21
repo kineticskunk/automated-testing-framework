@@ -95,11 +95,11 @@ public class Utilities {
         return randomNum;
     }
 
-    public String RandomAlpha(int intLength) {
+    public String RandomAlpha(int Length) {
         int leftLimit = 97;
         int rightLimit = 122;
-        StringBuilder buffer = new StringBuilder(intLength);
-        for (int i = 0; i < intLength; ++i) {
+        StringBuilder buffer = new StringBuilder(Length);
+        for (int i = 0; i < Length; ++i) {
             int randomLimitedInt = leftLimit + (int)(new Random().nextFloat() * (float)(rightLimit - leftLimit));
             buffer.append((char)randomLimitedInt);
         }

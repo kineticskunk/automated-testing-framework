@@ -83,6 +83,7 @@ public class EventHandler implements WebDriverEventListener {
 	@Override
 	public void beforeNavigateBack(WebDriver driver) {
 		this.logger.info(EVENTHANDLER, String.format("Just before beforeNavigateBack (%s)", driver.getCurrentUrl()));
+		
 	}
 
 	@Override
