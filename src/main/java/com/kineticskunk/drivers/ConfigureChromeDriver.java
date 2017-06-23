@@ -20,11 +20,11 @@ public class ConfigureChromeDriver {
     private ApplicationProperties ap = ApplicationProperties.getInstance();
 
     public void configureDriver() throws Exception {
-        this.setChromeService();
+       //this.setChromeService();
         this.setChromeOptions();
         this.setDesiredCapabilities();
         this.setDriver();
-        this.startChromeService();
+        //this.startChromeService();
         this.cd.manage().window().maximize();
     }
 

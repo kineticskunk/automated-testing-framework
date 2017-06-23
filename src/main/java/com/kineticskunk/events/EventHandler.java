@@ -18,6 +18,7 @@ public class EventHandler implements WebDriverEventListener {
     private String alertText;
     private String currentURL;
     private String navigateToURL;
+    private String foundBy;
 
 	@Override
 	public void beforeAlertAccept(WebDriver driver) {
@@ -78,12 +79,13 @@ public class EventHandler implements WebDriverEventListener {
 		} else {
 			this.logger.debug(EVENTHANDLER, String.format("Navigated to url = (%s)", driver.getCurrentUrl()));
 		}
+		this.currentURL = driver.getCurrentUrl();
 	}
 
 	@Override
 	public void beforeNavigateBack(WebDriver driver) {
-		this.logger.info(EVENTHANDLER, String.format("Just before beforeNavigateBack (%s)", driver.getCurrentUrl()));
-		
+		this.logger.info(EVENTHANDLER, "In beforeNavigateBack");
+		this.logger.info(EVENTHANDLER, String.format("Navigating back to (%s) from (%s)", this.navigateToURL, driver.getCurrentUrl()));
 	}
 
 	@Override
@@ -118,31 +120,28 @@ public class EventHandler implements WebDriverEventListener {
 
 	@Override
 	public void beforeFindBy(By by, WebElement element, WebDriver driver) {
-		// TODO Auto-generated method stub
-		
+		this.foundBy = by.toString();
+		this.logger.info(EVENTHANDLER, String.format("Finding WebElement in (%s) by (%s)", driver.getTitle(), by.toString()));
 	}
 
 	@Override
 	public void afterFindBy(By by, WebElement element, WebDriver driver) {
-		// TODO Auto-generated method stub
-		
+		this.logger.info(EVENTHANDLER, String.format("Element found by (%s) isDisplayed = (%s)", this.foundBy, driver.switchTo().activeElement().isDisplayed()));
 	}
 
 	@Override
 	public void beforeClickOn(WebElement element, WebDriver driver) {
-		// TODO Auto-generated method stub
-		
+		this.logger.info(EVENTHANDLER, String.format("About to click on element of class (%s) with text = (%s)", driver.switchTo().activeElement().getClass(), driver.switchTo().activeElement().getText()));
 	}
 
 	@Override
 	public void afterClickOn(WebElement element, WebDriver driver) {
-		// TODO Auto-generated method stub
-		
+		this.logger.info(EVENTHANDLER, String.format("Clicked on element of class (%s) with text = (%s)", driver.switchTo().activeElement().getClass(), driver.switchTo().activeElement().getText()));
 	}
 
 	@Override
 	public void beforeChangeValueOf(WebElement element, WebDriver driver, CharSequence[] keysToSend) {
-		// TODO Auto-generated method stub
+		this.logger.info(EVENTHANDLER, String.format("About to change value of element defined by (%s) to (%s)", driver.switchTo().activeElement().getClass(), keysToSend.toString()));
 		
 	}
 
@@ -166,7 +165,7 @@ public class EventHandler implements WebDriverEventListener {
 
 	@Override
 	public void onException(Throwable throwable, WebDriver driver) {
-		// TODO Auto-generated method stub
+		this.logger.info(EVENTHANDLER, String.format("CLicked on element of class (%s) with text = (%s)", driver.switchTo().activeElement().getClass(), driver.switchTo().activeElement().getText()));
 		
 	}
 

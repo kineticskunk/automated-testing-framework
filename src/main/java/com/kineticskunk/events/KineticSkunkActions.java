@@ -21,15 +21,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
+import com.kineticskunk.library.ApplicationProperties;
 import com.kineticskunk.synchronization.WebElementSynchronization;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
-import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -47,6 +45,19 @@ public class KineticSkunkActions extends WebElementSynchronization {
     public KineticSkunkActions(WebDriver driver) throws NoSuchElementException {
         super(driver);
         this.action = new Actions(driver);
+    }
+    
+    private static KineticSkunkActions ksa;
+    
+    public static KineticSkunkActions getInstance(WebDriver driver) {
+        if (ksa != null) return ksa;
+        synchronized (ApplicationProperties.class) {
+            if (ksa != null) return ksa;
+            {
+                ksa = new KineticSkunkActions(driver);
+            }
+            return ksa;
+        }
     }
 
     public void catchError(String methodName, String params, Exception ex) {
@@ -71,7 +82,7 @@ public class KineticSkunkActions extends WebElementSynchronization {
     }
 
     public void performActionDoubleClick(WebElement element) {
-        this.moveToWebElement(this.waitForElementToBeClickable(element)).doubleClick().release().perform();
+        this.moveToWebElement(this.waitForElementToBeClickable(element)).doubleClick(element).release().build().perform();
     }
 
     public void performActionClick(WebElement element) throws NoSuchElementException {
@@ -186,96 +197,6 @@ public class KineticSkunkActions extends WebElementSynchronization {
     public boolean isCheckedRadioButtonInList(List<WebElement> radioButtons, String identificationAttibute, String identificationAttibuteValue) {
         RadioButtons rb = new RadioButtons(this, radioButtons);
         return rb.isCheckedRadioButtonInList(identificationAttibute, identificationAttibuteValue);
-    }
-
-    public String getCellValue(WebElement table, String headerTagName, String headersTagName, String cellTagName, String searchHeader, WebElement body, String rowLocationHeaderValue, String rowTagName, String verificationHeader) {
-        WebTables wt = new WebTables();
-        wt.setTable(table);
-        wt.setHeader(headerTagName);
-        wt.setHeaders(headersTagName);
-        wt.setBody(body);
-        wt.setRows(rowTagName);
-        return wt.getCellValue(cellTagName, searchHeader, rowLocationHeaderValue, verificationHeader);
-    }
-
-    public void clickTableCellButton(WebElement table, String headerTagName, String headersTagName, WebElement body, String rowTagName, String searchHeader, String searchValue, String cellTagName, String cellButtonHeaderName, String buttonTagName, String buttonText) {
-        WebTables wt = new WebTables();
-        wt.setTable(table);
-        wt.setHeader(headerTagName);
-        wt.setHeaders(headersTagName);
-        wt.setBody(body);
-        wt.setRows(rowTagName);
-        wt.clickRowButton(searchHeader, searchValue, cellTagName, cellButtonHeaderName, buttonTagName, buttonText);
-    }
-
-    private class WebTables {
-        private WebElement table;
-        private WebElement header;
-        private List<WebElement> headers;
-        private WebElement body;
-        private List<WebElement> rows;
-
-        public WebTables() {
-            this.table = null;
-            this.header = null;
-            this.headers = null;
-            this.body = null;
-            this.rows = null;
-        }
-
-        public void setTable(WebElement table) {
-            this.table = table;
-        }
-
-        public void setHeader(String tagName) {
-            this.header = this.table.findElement(By.tagName(tagName));
-        }
-
-        public void setHeaders(String tagName) {
-            this.headers = this.header.findElements(By.tagName(tagName));
-        }
-
-        public void setBody(WebElement body) {
-            this.body = body;
-        }
-
-        public void setRows(String tagName) {
-            this.rows = this.body.findElements(By.tagName(tagName));
-        }
-
-        public String getCellValue(String cellTagName, String searchHeader, String searchValue, String verificationHeader) {
-            int headerPosition = this.getHeaderPosition(searchHeader);
-            for (WebElement row : this.rows) {
-                List<WebElement> cells = row.findElements(By.tagName(cellTagName));
-                if (!cells.get(headerPosition).getText().equalsIgnoreCase(searchValue)) continue;
-                return cells.get(this.getHeaderPosition(verificationHeader)).getText();
-            }
-            return null;
-        }
-
-        private int getHeaderPosition(String headerName) {
-            int headerPosition = 0;
-            for (WebElement header : this.headers) {
-                if (header.getText().equalsIgnoreCase(headerName)) break;
-                ++headerPosition;
-            }
-            return headerPosition;
-        }
-
-        public void clickRowButton(String searchHeaderName, String searchValue, String cellTagName, String cellButtonHeaderName, String buttonTagName, String buttonText) {
-            int headerPosition = this.getHeaderPosition(searchHeaderName);
-            for (WebElement row : this.rows) {
-                List<WebElement> cells = row.findElements(By.tagName(cellTagName));
-                if (!cells.get(headerPosition).getText().equalsIgnoreCase(searchValue)) continue;
-                WebElement buttonCell = cells.get(this.getHeaderPosition(cellButtonHeaderName));
-                List<WebElement> buttons = buttonCell.findElements(By.tagName(buttonTagName));
-                for (WebElement button : buttons) {
-                    if (!button.getText().equalsIgnoreCase(buttonText)) continue;
-                    button.click();
-                    return;
-                }
-            }
-        }
     }
 
     private class RadioButtons {

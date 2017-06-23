@@ -1,5 +1,6 @@
 package com.kineticskunk.synchronization;
 
+import com.kineticskunk.library.ApplicationProperties;
 import com.kineticskunk.synchronization.WebDriverSynchronization;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
@@ -21,6 +22,19 @@ public class WebElementSynchronization extends WebDriverSynchronization {
 
     public WebElementSynchronization(WebDriver driver) {
         super(driver);
+    }
+    
+    private static WebElementSynchronization wes;
+    
+    public static WebElementSynchronization getInstance(WebDriver driver) {
+        if (wes != null) return wes;
+        synchronized (ApplicationProperties.class) {
+            if (wes != null) return wes;
+            {
+            	wes = new WebElementSynchronization(driver);
+            }
+            return wes;
+        }
     }
 
     public boolean waitForPresenceOfUnspecifiedText(final WebElement element, final String attributeName) {

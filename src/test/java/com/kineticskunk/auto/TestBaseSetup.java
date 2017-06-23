@@ -79,8 +79,8 @@ public class TestBaseSetup extends WebDrivers {
 			break;
 		}
 		this.wd.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
-		this.eventDriver = new EventFiringWebDriver(this.wd);
-		this.eventDriver.register(handler);
+		//this.eventDriver = new EventFiringWebDriver(this.wd);
+		//this.eventDriver.register(handler);
 	}
 
 	public WebDriver getDriver() {
