@@ -1,11 +1,6 @@
 package com.kineticskunk.events;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Spliterator;
-
-import javax.json.Json;
-import javax.json.JsonObject;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,10 +8,6 @@ import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -26,12 +17,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.kineticskunk.synchronization.WebDriverSynchronization;
 
 public class WebTables {
-
-	private final Logger logger = LogManager.getLogger(WebTables.class.getName());
-	private final Marker WEBTABLES = MarkerManager.getMarker("WEBTABLES");
 
 	private WebTableBuilder wtb = new WebTableBuilder();
 
@@ -45,32 +32,27 @@ public class WebTables {
 	private WebTables (WebTableBuilder builder) {
 		this();
 		this.cellData = builder.cellData;
+		this.json = builder.json;
 	}
 
-	public String setCellData(WebDriver driver, WebElement table, String headerTag, String headersTag, String searchHeader, String bodyTag, String rowTag, String cellTag, String searchValue, String verificationHeader) {
-		this.wtb.setKineticSkunkActions(driver).setTable(table).setHeader(headerTag).setHeaders(headersTag).setHeaderPosition(searchHeader).setBody(bodyTag).setRows(rowTag).setCellData(cellTag, searchValue, verificationHeader).build();
+	public String getCellData(WebDriver driver, WebElement table, String headerTag, String headersTag, String referenceHeader, String bodyTag, String rowTag, String cellTag, String referenceValue, String searchHeader) {
+		this.wtb.setKineticSkunkActions(driver).setTable(table).setHeader(headerTag).setHeaders(headersTag).setHeaderIndex(referenceHeader).setBody(bodyTag).setRows(rowTag).setCellData(cellTag, referenceValue, searchHeader).build();
 		return this.cellData;
 	}
 
-	public void clickTableCellWebElement(WebDriver driver, WebElement table, String headerTag, String headersTag, String searchHeader, String bodyTag, String rowTag, String cellTag, String cellWebElementText) {
+	public void clickTableCellWebElement(WebDriver driver, WebElement table, String headerTag, String headersTag, String referenceHeader, String bodyTag, String rowTag, String cellTag, String referenceValue) {
 		WebTableBuilder wtb = new WebTableBuilder();
-		wtb.setKineticSkunkActions(driver).setTable(table).setHeader(headerTag).setHeaders(headersTag).setHeaderPosition(searchHeader).setBody(bodyTag).setRows(rowTag).clickCellWebElement(cellTag, cellWebElementText).build();
+		wtb.setKineticSkunkActions(driver).setTable(table).setHeader(headerTag).setHeaders(headersTag).setHeaderIndex(referenceHeader).setBody(bodyTag).setRows(rowTag).clickCellWebElement(cellTag, referenceValue).build();
 	}
 
-	public void clickCellNestedWebElement(WebDriver driver, WebElement table, String headerTag, String headersTag, String searchHeader, String bodyTag, String rowTag, String cellTag, String searchValue, String nestWebElementTag, String nestedWebElementText) {
+	public void clickCellNestedWebElement(WebDriver driver, WebElement table, String headerTag, String headersTag, String referenceHeader, String bodyTag, String rowTag, String cellTag, String searchValue, String nestWebElementTag, String referenceValue) {
 		WebTableBuilder wtb = new WebTableBuilder();
-		wtb.setKineticSkunkActions(driver).setTable(table).setHeader(headerTag).setHeaders(headersTag).setHeaderPosition(searchHeader).setBody(bodyTag).setRows(rowTag).clickCellNestedWebElement(cellTag, searchValue, nestWebElementTag, nestedWebElementText).build();
+		wtb.setKineticSkunkActions(driver).setTable(table).setHeader(headerTag).setHeaders(headersTag).setHeaderIndex(referenceHeader).setBody(bodyTag).setRows(rowTag).clickCellNestedWebElement(cellTag, searchValue, nestWebElementTag, referenceValue).build();
 	}
 
-	public JSONObject writeTabelToJSONObject(WebDriver driver, WebElement table, String headerTag, String headersTag, String bodyTag, String rowTag, String cellTag, String tableName) {
+	public JSONObject writeTabelToJSONObject(WebDriver driver, WebElement table, String headerTag, String headersTag, String bodyTag, String rowTag, String cellTag, String tableName, String headerArrayName) {
 		WebTableBuilder wtb = new WebTableBuilder();
-		wtb.setKineticSkunkActions(driver).setTable(table).setHeader(headerTag).setHeaders(headersTag).setBody(bodyTag).setRows(rowTag).writeTabelToJSONObject(cellTag, tableName).build();
-		return this.json;
-	}
-
-	public JSONObject writeTabelToJSONObject(WebDriver driver, WebElement table) {
-		WebTableBuilder wtb = new WebTableBuilder();
-		wtb.setKineticSkunkActions(driver).setTable(table).writeTableContentsToJSONObject().build();
+		wtb.setKineticSkunkActions(driver).setTable(table).setHeader(headerTag).setHeaders(headersTag).setBody(bodyTag).setRows(rowTag).writeTabelToJSONObject(cellTag, tableName, headerArrayName).build();
 		return this.json;
 	}
 
@@ -85,13 +67,18 @@ public class WebTables {
 		private List<WebElement> headers;
 		private WebElement body;
 		private List<WebElement> rows;
-
+		
+		private JSONObject json;
+		
 		private String cellData;
-		private int headerPosition;
-
+		private int headerIndex;
+		private String referenceColumnName;
+		
 		public WebTableBuilder() {
+			this.json = new JSONObject();
 			this.cellData = null;
-			this.headerPosition = 0;
+			this.headerIndex = 0;
+			this.referenceColumnName = null;
 		}
 
 		private WebTableBuilder setKineticSkunkActions(WebDriver driver) {
@@ -102,58 +89,75 @@ public class WebTables {
 		public WebTableBuilder setTable(WebElement table) {
 			try {
 				this.table = table;
-				return this;
 			} catch (NoSuchElementException e) {
-				this.logger.fatal(WEBTABLEBUILDER, "Method setTable through an exception");
 				throw new NoSuchElementException(String.format("Table defined by (%s) does not exist", this.table.toString()));
 			}
+			return this;
 		}
 
 		public WebTableBuilder setHeader(String headerTag) {
 			try {
 				this.header = this.table.findElement(By.tagName(headerTag));
-				return this;
 			} catch (NoSuchElementException e) {
-				this.logger.fatal(WEBTABLEBUILDER, "Method setHeader through an exception");
-				throw new NoSuchElementException(String.format("Table defined by (%s) does not exist", this.header.toString()));
+				throw new NoSuchElementException(String.format("Header defined by (%s) does not exist", this.header.toString()));
 			}
+			return this;
 		}
 
 		public WebTableBuilder setHeaders(String headersTag) {
-			this.headers = this.header.findElements(By.tagName(headersTag));
-			System.out.println("Number of header = " + this.headers.size());
+			try {
+				this.headers = this.header.findElements(By.tagName(headersTag));
+			} catch (NoSuchElementException e) {
+				throw new NoSuchElementException(String.format("Headers defined by (%s) does not exist", this.headers.toString()));
+			}
 			return this;
 		}
 
 		public WebTableBuilder setBody(String bodyTag) {
-			this.body = this.table.findElement(By.tagName(bodyTag));
-			System.out.println("Body text = " + this.body.getText());
+			try {
+				this.body = this.table.findElement(By.tagName(bodyTag));
+			} catch (NoSuchElementException e) {
+				throw new NoSuchElementException(String.format("Headers defined by (%s) does not exist", this.body.toString()));
+			}
 			return this;
 		}
 
 		public WebTableBuilder setRows(String rowTag) {
-			this.rows = this.body.findElements(By.tagName(rowTag));
-			System.out.println("Number of rows = " + this.rows.size());
-			return this;
-		}
-
-		private WebTableBuilder setHeaderPosition(String headerName) {
-			for (WebElement header : this.headers) {
-				System.out.println("Header text = " + header.getText());
-				if (header.getText().equalsIgnoreCase(headerName)) break;
-				++this.headerPosition;
+			try {
+				this.rows = this.body.findElements(By.tagName(rowTag));
+			} catch (NoSuchElementException e) {
+				throw new NoSuchElementException(String.format("Rows defined by (%s) does not exist", this.rows.toString()));
 			}
-			System.out.println(String.format("Index of header (%s) = (%s) ", headerName, this.headerPosition));
 			return this;
 		}
 
-		public WebTableBuilder setCellData(String cellTag, String searchValue, String verificationHeader) {
+		private WebTableBuilder setHeaderIndex(String headerName) {
+			this.referenceColumnName = headerName;
+			this.headerIndex = this.getHeaderIndex(headerName);
+			return this;
+		}
+		
+		private int getHeaderIndex(String headerName) {
+			int headerIndex = 0;
+			boolean foundHeader = false;
+			while (!foundHeader && (headerIndex <= this.headers.size() - 1)) {
+				if (this.headers.get(headerIndex).getText().equalsIgnoreCase(headerName)) {
+					foundHeader = true;
+				} else {
+					++headerIndex;
+				}
+			}
+			this.logger.debug(WEBTABLEBUILDER, String.format("Index of header (%s) = (%s) ", headerName, headerIndex));
+			return headerIndex;
+		}
+
+		public WebTableBuilder setCellData(String cellTag, String referenceValue, String searchHeader) {
 			for (WebElement row : this.rows) {
 				List<WebElement> cells = row.findElements(By.tagName(cellTag));
-				if (!cells.get(headerPosition).getText().equalsIgnoreCase(searchValue)) continue;
-				WebElement cell = cells.get(headerPosition);
-				this.ksa.moveToWebElement(cell);
-				this.cellData = cells.get(this.headerPosition).getText();
+				if (!cells.get(this.headerIndex).getText().equalsIgnoreCase(referenceValue)) continue;
+					this.cellData = this.ksa.getText(cells.get(this.getHeaderIndex(searchHeader)));
+					this.logger.debug(WEBTABLEBUILDER, String.format("Cell data = (%s) where the search header = (%s) and the reference value = (%s) in reference column = (%s)", this.cellData, searchHeader, referenceValue, this.referenceColumnName));
+					break;
 			}
 			return this;
 		}
@@ -161,9 +165,9 @@ public class WebTables {
 		public WebTableBuilder clickCellWebElement(String cellTag, String searchValue) {
 			for (WebElement row : this.rows) {
 				List<WebElement> cells = row.findElements(By.tagName(cellTag));
-				System.out.println(cells.get(headerPosition).getText());
-				if (!cells.get(headerPosition).getText().equalsIgnoreCase(searchValue)) continue;
-				WebElement cell = cells.get(headerPosition);
+				System.out.println(cells.get(headerIndex).getText());
+				if (!cells.get(headerIndex).getText().equalsIgnoreCase(searchValue)) continue;
+				WebElement cell = cells.get(headerIndex);
 				this.ksa.performActionDoubleClick(cell);
 				return this;
 			}
@@ -173,8 +177,8 @@ public class WebTables {
 		private WebTableBuilder clickCellNestedWebElement(String cellTag, String searchValue, String nestWebElementTag, String nestedWebElementText) {
 			for (WebElement row : this.rows) {
 				List<WebElement> cells = row.findElements(By.tagName(cellTag));
-				if (!cells.get(headerPosition).getText().equalsIgnoreCase(searchValue)) continue;
-				WebElement cell = cells.get(this.headerPosition);
+				if (!cells.get(headerIndex).getText().equalsIgnoreCase(searchValue)) continue;
+				WebElement cell = cells.get(this.headerIndex);
 				List<WebElement> nestedElement = cell.findElements(By.tagName(nestWebElementTag));
 				for (WebElement nel : nestedElement) {
 					if (!nel.getText().equalsIgnoreCase(nestedWebElementText)) continue;
@@ -186,111 +190,34 @@ public class WebTables {
 		}
 
 		@SuppressWarnings("unchecked")
-		private WebTableBuilder writeTabelToJSONObject(final String cellTag, final String tableName) {
-
-
-			JSONObject json = new JSONObject();
-			
-
-
-
-			
-
-
-
+		private WebTableBuilder writeTabelToJSONObject(final String cellTag, final String tableName, final String headerArrayName) {
+			JSONObject jsonX = new JSONObject();
+			int arrayNameIndex = this.getHeaderIndex(headerArrayName);
 			for (int rowCounter = 0; (rowCounter <= (this.rows.size() - 1)); rowCounter++) {
 				JSONArray jsonArr = new JSONArray();
 				JSONObject jo = new JSONObject();
 				List<WebElement> cells = this.rows.get(rowCounter).findElements(By.tagName(cellTag));
-
-				//for (int headerCounter = 1; (headerCounter <= (this.headers.size() - 1)); headerCounter++) {
-
-					
-
-					for (int cellCounter = 1; (cellCounter <= (cells.size() - 1)); cellCounter++) {
-						//System.out.println(this.headers.get(cellCounter).getText() + " = " + cells.get(cellCounter).getText());
+				for (int cellCounter = 0; (cellCounter <= (cells.size() - 1)); cellCounter++) {
+					if (cellCounter != arrayNameIndex) {
 						jo.put(this.headers.get(cellCounter).getText(), cells.get(cellCounter).getText());
-
 					}
-					
-					jsonArr.add(jo);
-				//}
-				System.out.println((this.rows.get(rowCounter).findElements(By.tagName("td"))).get(0).getText());
-				
-				json.put((this.rows.get(rowCounter).findElements(By.tagName("td"))).get(0).getText(), jo);
-
-				
+				}
+				jsonArr.add(jo);
+				jsonX.put((this.rows.get(rowCounter).findElements(By.tagName(cellTag))).get(arrayNameIndex).getText(), jo);
 			}
-			
-			JSONObject jsonX = new JSONObject();
-			
-			jsonX.put("Inboxes", json);
-			
+			this.json.put(tableName, jsonX);
+
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			JsonParser jp = new JsonParser();
-			JsonElement je = jp.parse(jsonX.toJSONString());
+			JsonElement je = jp.parse(this.json.toJSONString());
+			
 			String prettyJsonString = gson.toJson(je);
-
 
 			System.out.println(prettyJsonString);
 
-			
+
 			return this;
 		}
-
-		@SuppressWarnings("unchecked")
-		private WebTableBuilder writeTableContentsToJSONObject() {
-
-			final String HTML = this.table.getAttribute("outerHTML");
-
-			Document document = Jsoup.parse(HTML);
-			Element table = document.getElementsByTag(this.table.getTagName()).select("table").first();
-			Elements headers = table.getElementsByTag("th");
-
-			Elements rows = table.getElementsByTag("tr");
-
-
-			String arrayName = table.select("th").first().text();
-
-			//for (int i = 1, l = rows.size(); i < l; i++) {
-
-			JSONObject jsonObj = new JSONObject();
-
-			List<String> header = headers.eachText();
-			for (String h : header) {
-				JSONArray jsonArr = new JSONArray();
-				jsonObj.put(h, jsonArr);
-
-
-
-			}
-			System.out.println(jsonObj.toString());
-			// String key = headers.get(i).text();
-
-			//String value = rows.get(i).text();
-			//jo.put(key, value);
-			//}
-
-
-
-			//	String arrayName = table.select("thead").first().text();
-
-			//
-			//	
-
-
-			//Elements rows = table.getElementsByTag("tr");
-
-
-			//	JSONObject jo = new JSONObject();
-
-
-			//jsonArr.add(jo);
-			//jsonObj.put(arrayName, jsonArr);
-			//System.out.println(jsonObj.toString());
-			return this;
-		}
-
 
 
 		public WebTables build() {
