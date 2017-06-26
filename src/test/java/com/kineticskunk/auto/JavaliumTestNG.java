@@ -1,17 +1,7 @@
 package com.kineticskunk.auto;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.Marker;
-import org.apache.logging.log4j.MarkerManager;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.opera.OperaDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterGroups;
@@ -27,11 +17,7 @@ public class JavaliumTestNG extends TestBaseSetup {
 	
 	public JavaliumTestNG(String configFileLocation, String configFileName) throws IOException {
 		super(configFileLocation, configFileName);
-		// TODO Auto-generated constructor stub
 	}
-
-	private final Logger logger = LogManager.getLogger(JavaliumTestNG.class.getName());
-	private final Marker LOADDESIREDCAPABILITIES = MarkerManager.getMarker("LOADDESIREDCAPABILITIES");
 	
 	private static final String testSite = "https://www.google.co.za";
 	private static final String testSiteTitle = "google";

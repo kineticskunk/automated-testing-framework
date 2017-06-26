@@ -24,7 +24,8 @@ public class WebTables {
 
 	private String cellData;
 	private JSONObject json;
-
+	private String prettyJsonString;
+	
 	public WebTables () {
 		this.cellData = null;
 	}
@@ -33,6 +34,7 @@ public class WebTables {
 		this();
 		this.cellData = builder.cellData;
 		this.json = builder.json;
+		this.prettyJsonString = builder.prettyJsonString;
 	}
 
 	public String getCellData(WebDriver driver, WebElement table, String headerTag, String headersTag, String referenceHeader, String bodyTag, String rowTag, String cellTag, String referenceValue, String searchHeader) {
@@ -52,7 +54,7 @@ public class WebTables {
 
 	public JSONObject writeTabelToJSONObject(WebDriver driver, WebElement table, String headerTag, String headersTag, String bodyTag, String rowTag, String cellTag, String tableName, String headerArrayName) {
 		WebTableBuilder wtb = new WebTableBuilder();
-		wtb.setKineticSkunkActions(driver).setTable(table).setHeader(headerTag).setHeaders(headersTag).setBody(bodyTag).setRows(rowTag).writeTabelToJSONObject(cellTag, tableName, headerArrayName).build();
+		wtb.setKineticSkunkActions(driver).setTable(table).setHeader(headerTag).setHeaders(headersTag).setBody(bodyTag).setRows(rowTag).writeTabelToJSONObject(cellTag, tableName, headerArrayName).writeJSONObjectToPrettyJSON().build();
 		return this.json;
 	}
 
@@ -73,12 +75,14 @@ public class WebTables {
 		private String cellData;
 		private int headerIndex;
 		private String referenceColumnName;
+		private String prettyJsonString;
 		
 		public WebTableBuilder() {
 			this.json = new JSONObject();
 			this.cellData = null;
 			this.headerIndex = 0;
 			this.referenceColumnName = null;
+			this.prettyJsonString = null;
 		}
 
 		private WebTableBuilder setKineticSkunkActions(WebDriver driver) {
@@ -206,19 +210,16 @@ public class WebTables {
 				jsonX.put((this.rows.get(rowCounter).findElements(By.tagName(cellTag))).get(arrayNameIndex).getText(), jo);
 			}
 			this.json.put(tableName, jsonX);
-
+			return this;
+		}
+		
+		private WebTableBuilder writeJSONObjectToPrettyJSON() {
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			JsonParser jp = new JsonParser();
 			JsonElement je = jp.parse(this.json.toJSONString());
-			
-			String prettyJsonString = gson.toJson(je);
-
-			System.out.println(prettyJsonString);
-
-
+			this.prettyJsonString = gson.toJson(je);
 			return this;
 		}
-
 
 		public WebTables build() {
 			return new WebTables(this);
