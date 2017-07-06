@@ -24,7 +24,6 @@ public class WebTables {
 
 	private String cellData;
 	private JSONObject json;
-	private String prettyJsonString;
 	
 	public WebTables () {
 		this.cellData = null;
@@ -34,7 +33,6 @@ public class WebTables {
 		this();
 		this.cellData = builder.cellData;
 		this.json = builder.json;
-		this.prettyJsonString = builder.prettyJsonString;
 	}
 
 	public String getCellData(WebDriver driver, WebElement table, String headerTag, String headersTag, String referenceHeader, String bodyTag, String rowTag, String cellTag, String referenceValue, String searchHeader) {
@@ -92,7 +90,7 @@ public class WebTables {
 
 		public WebTableBuilder setTable(WebElement table) {
 			try {
-				this.table = table;
+				this.table = table;	
 			} catch (NoSuchElementException e) {
 				throw new NoSuchElementException(String.format("Table defined by (%s) does not exist", this.table.toString()));
 			}
@@ -218,6 +216,7 @@ public class WebTables {
 			JsonParser jp = new JsonParser();
 			JsonElement je = jp.parse(this.json.toJSONString());
 			this.prettyJsonString = gson.toJson(je);
+			System.out.println(this.prettyJsonString);
 			return this;
 		}
 
@@ -226,5 +225,5 @@ public class WebTables {
 		}
 
 	}
-
+	
 }
