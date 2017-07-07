@@ -36,7 +36,7 @@
 			<url>https://raw.github.com/kineticskunk/maven-dependencies/mvn-repo/</url>
 			<snapshots>
 				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
+				<updatePolicy>daily</updatePolicy>
 			</snapshots>
 		</repository>
 	</repositories>
@@ -100,6 +100,30 @@
 							<forkCount>3</forkCount>
 							<systemProperties>
 								<property>
+									<name>remoteWebDriver</name>
+									<value>false</value>
+								</property>
+								<property>
+									<name>host</name>
+									<value>http://127.0.0.1:4444</value>
+								</property>
+								<property>
+									<name>mongoHost</name>
+									<value>localhost</value>
+								</property>
+								<property>
+									<name>mongoPort</name>
+									<value>27017</value>
+								</property>
+								<property>
+									<name>dbName</name>
+									<value>WebDriverConfigDB</value>
+								</property>
+								<property>
+									<name>wdCollection</name>
+									<value>webDriverCollection</value>
+								</property>
+								<property>
 									<name>firefoxProfilePreferences</name>
 									<value>firefoxprofileperferences.properties</value>
 								</property>
@@ -121,10 +145,7 @@
 								</property>
 							</systemProperties>
 							<suiteXmlFiles>
-								<!--<suiteXmlFile>DriverFactoryTestNG.xml</suiteXmlFile> <suiteXmlFile>DriverFactoryTestNG.xml</suiteXmlFile> 
-									<suiteXmlFile>individual_applicant_kyc_maven_test.xml</suiteXmlFile> <suiteXmlFile>demo_email_validation_maven_test.xml</suiteXmlFile> 
-									<suiteXmlFile>email_validation_maven.xml</suiteXmlFile> <suiteXmlFile>tradedesk_landing_page_test_maven.xml</suiteXmlFile> 
-									<suiteXmlFile>tradedesk_demo_account_test_maven.xml</suiteXmlFile> -->
+								<suiteXmlFile>JavaliumTestNG.xml</suiteXmlFile>
 							</suiteXmlFiles>
 							<properties>
 								<property>
@@ -403,6 +424,18 @@
 			<groupId>com.jayway.restassured</groupId>
 			<artifactId>rest-assured</artifactId>
 			<version>${rest.assured.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.uncommons</groupId>
+			<artifactId>reportng</artifactId>
+			<version>1.1.4</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.testng</groupId>
+					<artifactId>testng</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.kineticskunk.auto</groupId>

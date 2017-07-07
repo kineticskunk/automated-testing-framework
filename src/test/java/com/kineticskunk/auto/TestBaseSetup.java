@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.testng.annotations.AfterClass;
@@ -18,64 +20,54 @@ import org.testng.annotations.Parameters;
 
 public class TestBaseSetup extends WebDrivers {
 	
-	private static TestBaseSetup tbs;
-
-	public static TestBaseSetup getInstance(String configFileLocation, String configFileName) throws IOException {
-		if (tbs == null ) {
-			synchronized (TestBaseSetup.class) {
-				if (tbs == null) {
-					tbs = new TestBaseSetup(configFileLocation, configFileName);
-				}
-			}
-		}
-		return tbs;
-	}
+	private final Logger logger = LogManager.getLogger(TestBaseSetup.class.getName());
+	private final Marker TESTBASESETUP = MarkerManager.getMarker("TESTBASESETUP");
 	
-	private static Logger logger;
 	protected WebDriver wd;
 	protected ApplicationProperties ap;
 	protected EventFiringWebDriver eventDriver;
 	protected EventHandler handler = new EventHandler();
 	
-	@Parameters({ "resourceFileLocation", "testExecutionPropertiesFile" })
-	public TestBaseSetup(String configFileLocation, String configFileName) throws IOException {
-		logger = LogManager.getLogger(Thread.currentThread().getName());
-		ap = ApplicationProperties.getInstance();
-		ap.loadPropertiesFile(configFileLocation, configFileName);
+	@Parameters({ "browserType", "desiredCapabilitiesConfigJSON" })
+	public TestBaseSetup(String browserType, String desiredCapabilitiesConfigJSON) throws IOException {
+		this.setDriver(browserType, desiredCapabilitiesConfigJSON);
 	}
 	
-	public ApplicationProperties getApplicationProperties() {
-		return ap;
-	}
-	
-	@Parameters({ "browserType", "resourceFileLocation" })
 	@BeforeClass
-	public void setDriver(String browserType, String resourceFileLocation) {
+	public void setDriver(String browserType, String desiredCapabilitiesConfigJSON) {
 		switch (browserType.toLowerCase()) {
 		case "chrome":
-			logger.info("***-------------***LAUNCHING GOOGLE CHROME***--------------***");
+			this.logger.info(TESTBASESETUP, "***-------------***LAUNCHING GOOGLE CHROME***--------------***");
 			try {
 				ConfigureChromeDriver driver = new ConfigureChromeDriver();
 				driver.configureDriver();
 				this.wd = driver.getDriver();
 			} catch (Exception e) {
-				logger.fatal("An error occurred while attempting to load the Chrome browser");
-				logger.error(e.getLocalizedMessage());
+				this.logger.fatal(TESTBASESETUP, "An error occurred while attempting to load a Chrome browser");
 			}
 			break;
 		case "firefox":
-			logger.info("***-------------***LAUNCHING MOZILLA FIREFOX***--------------***");
+			logger.info(TESTBASESETUP, "***-------------***LAUNCHING MOZILLA FIREFOX***--------------***");
 			try {
 				ConfigureFireFoxDriver driver = new ConfigureFireFoxDriver();
 				driver.configureDriver();
 				this.wd = driver.getDriver();
 			} catch (Exception e) {
-				logger.fatal("An error occurred while attempting to load the FireFox browser");
-				logger.error(e.getLocalizedMessage());
+				this.logger.fatal("TESTBASESETUP, An error occurred while attempting to load a FireFox browser");
+			}
+			break;
+		case "opera":
+			logger.info(TESTBASESETUP, "***-------------***LAUNCHING MOZILLA FIREFOX***--------------***");
+			try {
+				ConfigureFireFoxDriver driver = new ConfigureFireFoxDriver();
+				driver.configureDriver();
+				this.wd = driver.getDriver();
+			} catch (Exception e) {
+				this.logger.fatal("TESTBASESETUP, An error occurred while attempting to load a Opera browser");
 			}
 			break;
 		default:
-			logger.fatal("Brower '" + browserType + "' is unsupported");
+			this.logger.fatal(TESTBASESETUP, "Brower '" + browserType + "' is unsupported");
 			break;
 		}
 		this.wd.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);

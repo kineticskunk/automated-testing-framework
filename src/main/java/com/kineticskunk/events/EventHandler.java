@@ -165,7 +165,7 @@ public class EventHandler implements WebDriverEventListener {
 
 	@Override
 	public void onException(Throwable throwable, WebDriver driver) {
-		this.logger.info(EVENTHANDLER, String.format("CLicked on element of class (%s) with text = (%s)", driver.switchTo().activeElement().getClass(), driver.switchTo().activeElement().getText()));
+		this.logger.info(EVENTHANDLER, String.format("Message: (%s) \nLocalized Message: (%s) \nCause: (%s) \nStacktrace: (%s)", throwable.getMessage(), throwable.getLocalizedMessage(), throwable.getCause(), throwable.getStackTrace()));
 		
 	}
 

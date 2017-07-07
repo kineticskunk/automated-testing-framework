@@ -1,0 +1,10 @@
+{
+	"loggingPrefs": {
+		"browserloglevel": "ALL",
+		"clientloglevel": "OFF",
+		"driverloglevel": "OFF",
+		"performanceloglevel": "OFF",
+		"profileloglevel": "OFF",
+		"serverloglevel": "OFF"
+	}
+}

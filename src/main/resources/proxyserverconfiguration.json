@@ -1,0 +1,18 @@
+{
+	"useproxy": true,
+	"usesocksproxy": false,
+	"usenetworkproxy": false,
+	"useautoconfigurl": false,
+	"autodetect": false,
+	"autoconfigurl": "",
+	"proxy": {
+		"httpproxy": "localhost:8080",
+		"sslproxy": "localhos:8080",
+		"ftpproxy": "localhost:8080"
+	},
+	"socks": {
+		"socksproxy": "",
+		"socksusername": "",
+		"sockspassword": ""
+	}
+}

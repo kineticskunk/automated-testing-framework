@@ -1,0 +1,5 @@
+{
+	"marionette": true,
+	"firefox_binary": "/Users/yodaqua/ks-test-automation/firefox-lib/FirefoxNightly.app/Contents/MacOS/firefox-bin",
+	"version": "55.0a1"
+}

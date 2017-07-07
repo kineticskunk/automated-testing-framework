@@ -1,4 +1,12 @@
 {
+	"configloadingsetting": {
+		"loadproxy": false,
+		"loadfirefoxprofilepreferences": true,
+		"loadfirefoxextensions": false,
+		"loadfirebug": false,
+		"loadnetworkproxy": false,
+		"loadloggingprefs": true
+	},
 	"webdrivers": {
 		"chromedriverlocation": "/usr/local/share/chromedriver",
 		"geckodriverlocation": "/usr/local/share/geckodriver",
@@ -7,6 +15,10 @@
 	"webdriverconfig": {
 		"waitfor": 10,
 		"loopfor": 2
+	},
+	"browserdisplaysettings": {
+		"bringtofront": true,
+		"resize": true
 	}
 }
 

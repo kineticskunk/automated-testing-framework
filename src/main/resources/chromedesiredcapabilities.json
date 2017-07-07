@@ -1,0 +1,10 @@
+{
+	"chromeoptionsarguments": {
+		"argument0": "start-maximized",
+		"argument1": "ignore-certificate-errors",
+		"argument2": "--new-window"
+	},
+	"chromeperferences": {
+		"profile.password_manager_enabled": false
+	}
+}
