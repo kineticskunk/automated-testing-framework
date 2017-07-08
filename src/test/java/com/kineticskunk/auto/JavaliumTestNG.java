@@ -6,14 +6,12 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterGroups;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeGroups;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import com.kineticskunk.auto.desiredcapabilities.LoadDesiredCapabilities;
-
 public class JavaliumTestNG extends WDFTestBaseSetup {
 	
-	private LoadDesiredCapabilities ldc = new LoadDesiredCapabilities();
 	private WebDriver wd;
 	
 	@Parameters( { "browserType", "desiredCapabilitiesConfigJSON", "bringBrowserToFront", "resizeBrowser"} )
@@ -22,10 +20,16 @@ public class JavaliumTestNG extends WDFTestBaseSetup {
 		this.wd = getDriver();
 	}
 	
-	@Test(priority = 1, groups = "LoadDesiredCapabilities")
-	@Parameters( { "browserType" })
-	public void verifyBrowserType(String browserType) {
-		Assert.assertTrue(this.wd.getTitle().equalsIgnoreCase(browserType));
+	@BeforeGroups(groups = "Javalium")
+	@Parameters( { "url" })
+	public void navigateToSite(String url) {
+		this.wd.navigate().to(url);
+	}
+	
+	@Test(priority = 1, groups = "Javalium")
+	@Parameters( { "browserTitle" })
+	public void verifyBrowserType(String browserTitle) {
+		Assert.assertTrue(this.wd.getTitle().equalsIgnoreCase(browserTitle));
 	}
 	
 	@AfterClass()
