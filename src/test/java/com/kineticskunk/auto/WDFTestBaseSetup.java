@@ -10,14 +10,20 @@ import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
+
+import com.kineticskunk.auto.chrome.ChromeDesiredCapabilities;
+import com.kineticskunk.auto.desiredcapabilities.LoadDesiredCapabilities;
+import com.kineticskunk.auto.firefox.LoadFireFoxProfile;
 import com.kineticskunk.driverfactory.DriverFactory;
 import com.kineticskunk.events.EventHandler;
 
-public class WDFTestBaseSetup {
+public class WDFTestBaseSetup extends LoadDesiredCapabilities {
 	
 	private static int WAIT = 60;
+	
 	private Logger logger = LogManager.getLogger(WDFTestBaseSetup.class.getName());
 	private Marker WDFTESTBASESETUP = MarkerManager.getMarker("WDFTESTBASESETUP");
 
@@ -27,10 +33,25 @@ public class WDFTestBaseSetup {
 	private EventHandler handler = new EventHandler();
 	
 	public WDFTestBaseSetup(String browserType, String desiredCapabilitiesConfigJSON, String bringBrowserToFront, String resizeBrowser) {
+		super();
 		try {
 			DesiredCapabilities dc = new DesiredCapabilities();
 			dc.setBrowserName(browserType);
-			this.df =  new DriverFactory(dc);
+			dc.merge(this.getCommonDesiredCapabilties());
+			switch (browserType.toLowerCase()) {
+			case "firefox":
+				LoadFireFoxProfile lffp = new LoadFireFoxProfile();
+				dc.setCapability(FirefoxDriver.PROFILE, lffp.getFirefoxProfile());
+				break;
+			case "chrome":
+				ChromeDesiredCapabilities cdc = new ChromeDesiredCapabilities();
+				dc.merge(cdc.getDesiredCapabilities());
+				break;
+			case "opera":
+				
+				break;
+			}
+			this.df = new DriverFactory(dc);
 			this.wd = this.df.getDriver();
 			this.wd.manage().timeouts().implicitlyWait(WAIT, TimeUnit.SECONDS);
 			this.eventDriver = new EventFiringWebDriver(this.wd);

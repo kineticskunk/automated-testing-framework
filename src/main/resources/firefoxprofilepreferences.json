@@ -1,36 +1,26 @@
 {
-	"always.load.no.focus.lib": true,
-	"assume.untrusted.certificate.issuer": true,
-	"browser.cache.disk.enable": true,
-	"browser.download.dir": "~/downloads",
-	"browser.download.folderList": 2,
-	"browser.download.manager.alertOnEXEOpen": false,
-	"browser.download.manager.closeWhenDone": true,
-	"browser.download.manager.focusWhenStarting": false,
-	"browser.download.manager.showAlertOnComplete": false,
-	"browser.download.manager.showWhenStarting": false,
-	"browser.download.manager.useWindow": false,
-	"browser.helperApps.alwaysAsk.force": false,
-	"browser.helperApps.neverAsk.openFile": "text/csv,application/excel,image/png,image/jpeg,text/html,text/plain,application/msword,application/xml,application/zip",
-	"browser.helperApps.neverAsk.saveToDisk": "text/csv,application/excel,image/png,image/jpeg,text/html,text/plain,application/msword,application/xml,application/zip",
-	"enable.native.events": true,
-	"network.proxy.type": 1,
-	"network.proxy.http": "localhost",
-	"network.proxy.http_port": 8080,
-	"network.proxy.ssl": "localhost",
-	"network.proxy.ssl_port": 8080,
-	"firefoxextensions": [
-		{
-		"extension": "firebug-3.0.0-alpha.14.xpi",
-		"preferences": {
-			"extensions.firebug.currentVersion": "3.0.0-alpha.14",
-			"extensions.firebug.console.enableSites": true,
-			"extensions.firebug.script.enableSites": true,
-			"extensions.firebug.defaultPanelName": "HTML",
-			"extensions.firebug.net.enableSites": true,
-			"extensions.firebug.allPagesActivation": "on",
-			"extensions.firebug.cookies.enableSites": true
-		}
-		}
-	]
+	"firefoxprofile": {
+		"always.load.no.focus.lib": true,
+		"assume.untrusted.certificate.issuer": true,
+		"browser.cache.disk.enable": true,
+		"browser.download.dir": "~/downloads",
+		"browser.download.folderList": 2,
+		"browser.download.manager.alertOnEXEOpen": false,
+		"browser.download.manager.closeWhenDone": true,
+		"browser.download.manager.focusWhenStarting": false,
+		"browser.download.manager.showAlertOnComplete": false,
+		"browser.download.manager.showWhenStarting": false,
+		"browser.download.manager.useWindow": false,
+		"browser.helperApps.alwaysAsk.force": false,
+		"browser.helperApps.neverAsk.openFile": "text/csv,application/excel,image/png,image/jpeg,text/html,text/plain,application/msword,application/xml,application/zip",
+		"browser.helperApps.neverAsk.saveToDisk": "text/csv,application/excel,image/png,image/jpeg,text/html,text/plain,application/msword,application/xml,application/zip",
+		"enable.native.events": true
+	},
+	"networkproxy": {
+		"network.proxy.type": 1,
+		"network.proxy.http": "localhost",
+		"network.proxy.http_port": 8080,
+		"network.proxy.ssl": "localhost",
+		"network.proxy.ssl_port": 8080
+	}
 }

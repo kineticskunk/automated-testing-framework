@@ -1,0 +1,12 @@
+{
+	"firebug": "firebug-3.0.0-alpha.14.xpi",
+	"preferences": {
+		"extensions.firebug.currentVersion": "3.0.0-alpha.14",
+		"extensions.firebug.console.enableSites": true,
+		"extensions.firebug.script.enableSites": true,
+		"extensions.firebug.defaultPanelName": "HTML",
+		"extensions.firebug.net.enableSites": true,
+		"extensions.firebug.allPagesActivation": "on",
+		"extensions.firebug.cookies.enableSites": true
+	}
+}
