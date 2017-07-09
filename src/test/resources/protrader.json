@@ -1,0 +1,26 @@
+{
+	"protrader": {
+		"Account": "aphiwempambani16",
+		"Sender": "aphiwempambani16",
+		"Instrument": "QA TEST2",
+		"Trade ID": "3052109",
+		"Trader ID": "790821",
+		"External ID": "972552",
+		"Route name": "odwaM",
+		"Operation": "Buy",
+		"Date": "08-05-2017 17:10:19.883",
+		"Price": "3.00",
+		"Amount": "10.00",
+		"Cross price": "1.00",
+		"Profit": "0.00",
+		"Execution fee": "-30.00",
+		"External price": "3.00",
+		"Trade volume": "30.00",
+		"Exposure": "30.00",
+		"Type": "Limit",
+		"Value date": "08-05-2017",
+		"Autotrade": "Manual",
+		"Terminal": "Net",
+		"Rebates": "0.00"
+	}
+}
