@@ -18,7 +18,7 @@ import com.kineticskunk.auto.chrome.ChromeDesiredCapabilities;
 import com.kineticskunk.auto.desiredcapabilities.LoadDesiredCapabilities;
 import com.kineticskunk.auto.firefox.LoadFireFoxProfile;
 import com.kineticskunk.driverfactory.DriverFactory;
-import com.kineticskunk.events.EventHandler;
+import com.kineticskunk.events.SeleniumEventHandler;
 
 public class WDFTestBaseSetup extends LoadDesiredCapabilities {
 	
@@ -30,7 +30,7 @@ public class WDFTestBaseSetup extends LoadDesiredCapabilities {
 	private DriverFactory df;
 	private WebDriver wd;
 	private EventFiringWebDriver eventDriver;
-	private EventHandler handler = new EventHandler();
+	private SeleniumEventHandler handler = new SeleniumEventHandler();
 	
 	public WDFTestBaseSetup(String browserType, String desiredCapabilitiesConfigJSON, String bringBrowserToFront, String resizeBrowser) {
 		super();

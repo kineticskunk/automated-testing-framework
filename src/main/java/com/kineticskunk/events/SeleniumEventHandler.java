@@ -9,9 +9,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.events.WebDriverEventListener;
 
-public class EventHandler implements WebDriverEventListener {
+public class SeleniumEventHandler implements WebDriverEventListener {
 	
-	private final Logger logger = LogManager.getLogger(EventHandler.class.getName());
+	private final Logger logger = LogManager.getLogger(SeleniumEventHandler.class.getName());
     private final Marker EVENTHANDLER = MarkerManager.getMarker("EVENTHANDLER");
     
     private AlertsHandler alertHandler;
