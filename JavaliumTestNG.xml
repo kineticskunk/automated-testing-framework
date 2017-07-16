@@ -6,11 +6,12 @@
 		<listener class-name="org.uncommons.reportng.HTMLReporter" />
 		<listener class-name="org.uncommons.reportng.JUnitXMLReporter" />
 	</listeners>
-
+	
+	<parameter name="testExecutionProperties" value="testexecutionproperties.json" />
+	<parameter name="desiredCapabilitiesProperties" value="desiredcapabilities.json" />
+	
 	<parameter name="url" value="http://www.google.com" />
 	<parameter name="browserTitle" value="google" />
-	<parameter name="bringBrowserToFront" value="true" />
-	<parameter name="resizeBrowser" value="true" />
 
 	<test name="Load FireFox DesiredCapabilities">
 		<parameter name="browserType" value="firefox" />

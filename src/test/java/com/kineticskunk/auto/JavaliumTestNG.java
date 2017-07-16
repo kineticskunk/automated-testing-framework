@@ -10,13 +10,15 @@ import org.testng.annotations.BeforeGroups;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-public class JavaliumTestNG extends WDFTestBaseSetup {
+import com.kineticskunk.base.TestBaseSetup;
+
+public class JavaliumTestNG extends TestBaseSetup {
 	
 	private WebDriver wd;
 	
-	@Parameters( { "browserType", "desiredCapabilitiesConfigJSON", "bringBrowserToFront", "resizeBrowser"} )
-	public JavaliumTestNG(String browserType, String desiredCapabilitiesConfigJSON, String bringBrowserToFront, String resizeBrowser) throws IOException {
-		super(browserType, desiredCapabilitiesConfigJSON, bringBrowserToFront, resizeBrowser);
+	@Parameters( { "browserType", "testExecutionProperties", "desiredCapabilitiesProperties"} )
+	public JavaliumTestNG(String browserType, String testExecutionProperties, String desiredCapabilitiesProperties) throws IOException {
+		super(browserType, testExecutionProperties, desiredCapabilitiesProperties);
 		this.wd = getDriver();
 	}
 	

@@ -23,7 +23,7 @@ public class TestDataLoader extends ConfigurationLoader {
 	private JSONObject jsonObject = null;
 	
 	public TestDataLoader(String jsonFile) {
-		super(jsonFile);
+		
 	}
 	
 	

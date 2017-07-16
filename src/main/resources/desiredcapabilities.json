@@ -16,6 +16,14 @@
 		"nativeEvents": true,
 		"unexpectedAlertBehavior": "dismiss",
 		"pageLoadingStrategy": "normal",
-		"elementScrollBehavior": 0
+		"elementScrollBehavior": 0,
+		"loggingPreferences": {
+			"browserloglevel": "WARNING",
+			"clientloglevel": "OFF",
+			"driverloglevel": "OFF",
+			"performanceloglevel": "OFF",
+			"profileloglevel": "OFF",
+			"serverloglevel": "OFF"
+		}
 	}
 }

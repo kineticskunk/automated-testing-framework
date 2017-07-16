@@ -1,5 +1,5 @@
 {
-	"configloadingsetting": {
+	"configurationloadingsettings": {
 		"loadproxy": false,
 		"loadfirefoxprofilepreferences": true,
 		"loadfirefoxextensions": false,
@@ -7,7 +7,7 @@
 		"loadnetworkproxy": false,
 		"loadloggingprefs": true
 	},
-	"webdrivers": {
+	"webdriverexecutables": {
 		"chromedriverlocation": "/usr/local/share/chromedriver",
 		"geckodriverlocation": "/usr/local/share/geckodriver",
 		"operadriverlocation": "/usr/local/share/operadriver"
@@ -16,9 +16,13 @@
 		"waitfor": 10,
 		"loopfor": 2
 	},
-	"browserdisplaysettings": {
+	"browsersettings": {
 		"bringtofront": true,
 		"resize": true
+	},
+	"remotewebdriversettings": {
+		"ip": "0.0.0.0",
+		"port": 4723
 	}
 }
 
