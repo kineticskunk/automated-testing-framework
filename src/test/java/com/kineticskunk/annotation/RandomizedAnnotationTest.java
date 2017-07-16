@@ -1,9 +1,8 @@
 package com.kineticskunk.annotation;
 
+import com.kineticskunk.annotation.Randomized;
+import com.kineticskunk.annotation.Randomized.randomType;
 import com.kineticskunk.library.RandomValues;
-
-import annotation.Randomized;
-import annotation.Randomized.randomType;
 
 public class RandomizedAnnotationTest {
 	

@@ -29,4 +29,3 @@ public class ComboBoxes extends WebElementSynchronization {
         return options.contains(value);
     }
 }
-

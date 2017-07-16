@@ -1,4 +1,4 @@
-package annotation;
+package com.kineticskunk.annotation;
 
 public @interface WebDriverType {
 

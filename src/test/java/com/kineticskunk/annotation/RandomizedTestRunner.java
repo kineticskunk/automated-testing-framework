@@ -2,8 +2,8 @@ package com.kineticskunk.annotation;
 
 import java.lang.reflect.Method;
 
-import annotation.Randomized;
-import annotation.Randomized.randomType;
+import com.kineticskunk.annotation.Randomized;
+import com.kineticskunk.annotation.Randomized.randomType;
 
 public class RandomizedTestRunner {
 	
@@ -24,8 +24,8 @@ public class RandomizedTestRunner {
                 		method.invoke(runner, annos.min(), annos.max());
                 	}
                 	
-                	if (annos.randomAlphaNumeric().equals(randomType.NUMERIC)) {
-                		method.invoke(runner, annos.min(), annos.max());
+                	if (annos.randomAlphaNumeric().equals(randomType.ALPHA)) {
+                		method.invoke(runner, annos.length());
                 	}
                 	
                 } catch (Exception e) {

@@ -1,4 +1,4 @@
-package com.kineticskunk.auto.mongodb;
+package com.kineticskunk.mongodb;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
