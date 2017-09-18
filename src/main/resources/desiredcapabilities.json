@@ -1,9 +1,9 @@
 {
 	"commondesiredcapabilities": {
 		"acceptSslCerts": true,
-		"platform": "any",
+		"platform": "linux",
 		"javascriptEnabled": true,
-		"takesScreenshot": true,
+		"takesScreenshot": false,
 		"handlesAlerts": true,
 		"databaseEnabled": true,
 		"locationContextEnabled": true,

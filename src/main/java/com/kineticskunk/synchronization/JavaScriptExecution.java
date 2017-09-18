@@ -8,16 +8,28 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class JavaScriptExecution {
 	
+	private WebDriver driver;
 	protected JavascriptExecutor je;
     protected int waitFor;
 
     public JavaScriptExecution(WebDriver driver) {
         this.je = (JavascriptExecutor)((Object)driver);
+        this.driver = driver;
         this.waitFor = 0;
     }
 
     public void setWaitFor(int waitFor) {
         this.waitFor = waitFor;
+    }
+    
+    public void waitForAjax() {
+        new WebDriverWait(this.driver, this.waitFor).until(new ExpectedCondition<Boolean>(){
+
+            @Override
+            public Boolean apply(WebDriver driver) {
+                return (Boolean)JavaScriptExecution.this.je.executeScript("return jQuery.active == 0", new Object[0]);
+            }
+        });
     }
 
     public void waitForAjax(WebDriver driver) {

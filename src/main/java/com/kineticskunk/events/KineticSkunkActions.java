@@ -87,7 +87,9 @@ public class KineticSkunkActions extends WebElementSynchronization {
 
     public void performActionClick(WebElement element) throws NoSuchElementException {
         try {
-            this.moveToWebElement(this.waitForElementToBeClickable(element)).click().perform();
+        	if (this.waitForElementToBeDisplayed(element)) {
+        		this.waitForElementToBeClickable(element).click();
+        	}
         }
         catch (Exception ex) {
             this.catchError("performActionClick", element.toString(), ex);
@@ -200,17 +202,18 @@ public class KineticSkunkActions extends WebElementSynchronization {
     }
 
     private class RadioButtons {
+    	
         private WebElement radioButton;
         private List<WebElement> radioButtons;
-        final /* synthetic */ KineticSkunkActions this$0;
+        private KineticSkunkActions ksa;
 
-        private RadioButtons(KineticSkunkActions kineticSkunkActions, WebElement element) {
-            this.this$0 = kineticSkunkActions;
+        private RadioButtons(KineticSkunkActions ksa, WebElement element) {
+            this.ksa = ksa;
             this.radioButton = element;
         }
 
-        private RadioButtons(KineticSkunkActions kineticSkunkActions, List<WebElement> elements) {
-            this.this$0 = kineticSkunkActions;
+        private RadioButtons(KineticSkunkActions ksa, List<WebElement> elements) {
+            this.ksa = ksa;
             this.radioButtons = elements;
         }
 
@@ -220,15 +223,15 @@ public class KineticSkunkActions extends WebElementSynchronization {
 
         private void selectRadioButton() {
             if (!this.isRadioButtonSelected()) {
-                this.this$0.performActionClick(this.radioButton);
+                this.ksa.performActionClick(this.radioButton);
             }
         }
 
         public void selectRadioButtonInList(String attibute, String attributeValue) {
             for (WebElement el : this.radioButtons) {
                 if (!el.getAttribute(attibute).equalsIgnoreCase(attributeValue)) continue;
-                if (el.isSelected()) break;
-                this.this$0.performActionClick(el);
+                	if (el.isSelected()) break;
+                	this.ksa.performActionClick(el);
                 break;
             }
         }

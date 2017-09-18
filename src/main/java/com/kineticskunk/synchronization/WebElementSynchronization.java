@@ -39,7 +39,6 @@ public class WebElementSynchronization extends WebDriverSynchronization {
 
     public boolean waitForPresenceOfUnspecifiedText(final WebElement element, final String attributeName) {
         return (Boolean) this.driverWait().until(new ExpectedCondition<Boolean>(){
-
             @Override
             public Boolean apply(WebDriver d) {
                 return !element.getAttribute(attributeName).isEmpty();
@@ -49,7 +48,6 @@ public class WebElementSynchronization extends WebDriverSynchronization {
 
     public boolean waitForStringToBecomeNumeric(final WebElement element, final String attributeName) {
         return (Boolean)this.driverWait().until(new ExpectedCondition<Boolean>(){
-
             @Override
             public Boolean apply(WebDriver d) {
                 return WebElementSynchronization.isNumeric(element.getAttribute(attributeName));
@@ -67,7 +65,6 @@ public class WebElementSynchronization extends WebDriverSynchronization {
 
     public boolean elementNotToBeDisplayed(final WebElement element) {
         return (Boolean)this.driverWait().until(new ExpectedCondition<Boolean>(){
-
             @Override
             public Boolean apply(WebDriver d) {
                 return !element.isDisplayed();
@@ -80,7 +77,6 @@ public class WebElementSynchronization extends WebDriverSynchronization {
             return true;
         }
         return (Boolean)this.driverWait().until(new ExpectedCondition<Boolean>(){
-
             @Override
             public Boolean apply(WebDriver d) {
                 return element.findElements(By.tagName(tagName)).size() > size;
@@ -292,7 +288,7 @@ public class WebElementSynchronization extends WebDriverSynchronization {
                 return (WebElement)this.driverWait().until(ExpectedConditions.elementToBeClickable(By.partialLinkText(findByValue)));
             }
         }
-        logger.error("Find by \"" + findBy + '\"' + " is unsupported");
+        this.logger.error(WEBELEMENTSYCHRONIZATION, "Find by \"" + findBy + '\"' + " is unsupported");
         return null;
     }
 

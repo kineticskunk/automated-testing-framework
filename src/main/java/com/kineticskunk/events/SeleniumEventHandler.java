@@ -131,12 +131,12 @@ public class SeleniumEventHandler implements WebDriverEventListener {
 
 	@Override
 	public void beforeClickOn(WebElement element, WebDriver driver) {
-		this.logger.info(EVENTHANDLER, String.format("About to click on element of class (%s) with text = (%s)", driver.switchTo().activeElement().getClass(), driver.switchTo().activeElement().getText()));
+		this.logger.info(EVENTHANDLER, String.format("About to click on element of class (%s) with text = (%s)", driver.switchTo().activeElement().getClass(), element.getText()));
 	}
 
 	@Override
 	public void afterClickOn(WebElement element, WebDriver driver) {
-		this.logger.info(EVENTHANDLER, String.format("Clicked on element of class (%s) with text = (%s)", driver.switchTo().activeElement().getClass(), driver.switchTo().activeElement().getText()));
+		this.logger.info(EVENTHANDLER, String.format("Clicked on element of class (%s) with text = (%s)", driver.switchTo().activeElement().getClass(), element.getText()));
 	}
 
 	@Override

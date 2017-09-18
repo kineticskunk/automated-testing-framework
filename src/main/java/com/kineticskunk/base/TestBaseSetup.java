@@ -13,6 +13,7 @@ import org.apache.logging.log4j.MarkerManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 
@@ -37,7 +38,7 @@ public class TestBaseSetup {
 	private DesiredCapabilities dc;
 	private SeleniumEventHandler handler = new SeleniumEventHandler();
 
-	public TestBaseSetup(String browserType, String testExecutionProperties, String desiredCapabilities) {
+	public TestBaseSetup(String browserType, String testExecutionProperties, String desiredCapabilities, boolean useRemoteWebDriver, String remoteWebDriverURL) {
 		try {
 			this.tep = TestExecutionProperties.getInstance(testExecutionProperties);
 			this.loadWebDriverSystemPropertyEnviromentVariables();
@@ -49,6 +50,7 @@ public class TestBaseSetup {
 			case "firefox":
 				LoadFireFoxProfile lffp = new LoadFireFoxProfile();
 				this.dc.setCapability(FirefoxDriver.PROFILE, lffp.getFirefoxProfile());
+				this.dc.setCapability(CapabilityType.BROWSER_NAME, browserType);
 				break;
 			case "chrome":
 				ChromeDesiredCapabilities cdc = new ChromeDesiredCapabilities();
@@ -58,9 +60,16 @@ public class TestBaseSetup {
 
 				break;
 			}
-			this.df = new DriverFactory(dc);
+			
+			if (useRemoteWebDriver) {
+				this.df = new DriverFactory(dc, useRemoteWebDriver, remoteWebDriverURL);
+			} else {
+				this.df = new DriverFactory(dc);
+			}
+			
 			this.wd = this.df.getDriver();
 			this.wd.manage().timeouts().implicitlyWait(WAIT, TimeUnit.SECONDS);
+			this.wd.manage().window().maximize();
 			this.eventDriver = new EventFiringWebDriver(this.wd);
 			this.eventDriver.register(handler);
 		} catch (WebDriverException e) {
@@ -83,7 +92,7 @@ public class TestBaseSetup {
 	}
 
 	public void quitDriver() {
-		this.eventDriver.quit();
+		//this.eventDriver.quit();
 	}
 
 	public void loadWebDriverSystemPropertyEnviromentVariables() {
